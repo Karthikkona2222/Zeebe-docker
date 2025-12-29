@@ -1,0 +1,17 @@
+# Terraform
+infra/.terraform/
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+
+# Terraform lock (optional, but usually ignored)
+infra/.terraform.lock.hcl
+
+# Java
+*.jar
+
+# OS / IDE
+*.exe
+*.log
+.DS_Store
+.vscode/
+.idea/

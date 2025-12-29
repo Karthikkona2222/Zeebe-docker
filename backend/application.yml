@@ -1,0 +1,17 @@
+server:
+  port: 8989
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/appdb
+    username: appuser
+    password: apppassword
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always

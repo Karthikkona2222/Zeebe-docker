@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  zeebe:
+    image: camunda/zeebe:8.5.3
+    container_name: zeebe
+    restart: always
+    ports:
+      - "26500:26500"
+    environment:
+      ZEEBE_BROKER_NETWORK_HOST: 0.0.0.0
+      ZEEBE_BROKER_GATEWAY_ENABLE: "true"
+      ZEEBE_BROKER_GATEWAY_NETWORK_HOST: 0.0.0.0
+    volumes:
+      - zeebe-data:/usr/local/zeebe/data
+
+  ais-backend:
+    container_name: ais-backend
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8989:8989"
+    depends_on:
+      - postgres
+      - zeebe
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/appdb
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: apppassword
+      ZEEBE_CLIENT_BROKER_GATEWAY_ADDRESS: zeebe:26500
+
+volumes:
+  pgdata:
+  zeebe-data:
