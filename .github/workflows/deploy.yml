@@ -13,10 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build backend Docker image
-        run: |
-          docker build -t ais-backend ./backend
-
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -24,7 +20,32 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/zeebe-docker
+            set -e
+
+            echo "Connected to EC2"
+
+            # Install Docker if missing
+            if ! command -v docker &> /dev/null; then
+              sudo apt update
+              sudo apt install -y docker.io docker-compose-plugin
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker ubuntu
+            fi
+
+            cd /home/ubuntu
+
+            # Clone repo if not exists
+            if [ ! -d "zeebe-docker" ]; then
+              git clone https://github.com/Karthikkona2222/zeebe-docker.git
+            fi
+
+            cd zeebe-docker
             git pull origin main
-            docker compose down
-            docker compose up -d --build
+
+            cd docker
+            docker compose down || true
+            docker compose build
+            docker compose up -d
+
+            echo "Deployment successful"
