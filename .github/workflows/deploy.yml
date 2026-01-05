@@ -21,20 +21,15 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
-            echo "Connected to EC2"
-
             cd /home/ubuntu
 
             if [ ! -d "zeebe-docker" ]; then
               git clone https://github.com/Karthikkona2222/zeebe-docker.git
             fi
 
-            cd zeebe-docker
+            cd zeebe-docker/docker
             git pull origin main
 
-            cd docker
             docker compose down || true
             docker compose build
             docker compose up -d
-
-            echo "Deployment successful"
