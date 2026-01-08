@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+
+  xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+
+  xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+
+  xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+
+  xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+
+  id="riskCalculationDefinition"
+
+  name="Risk Calculation"
+
+  namespace="http://camunda.org/schema/1.0/dmn">
+<decision id="riskCalculationDecision" name="Risk Calculation Decision">
+<decisionTable id="riskCalculationTable" hitPolicy="FIRST">
+<input id="input1" label="Risk Score">
+<inputExpression id="inputExpression1" typeRef="integer">
+<text>riskScore</text>
+</inputExpression>
+</input>
+<output id="output1" label="Risk Level" name="riskLevel" typeRef="string" />
+<!-- Rule 1: High Risk -->
+<rule id="rule1">
+<inputEntry id="inputEntry1"><text>&gt;= 80</text></inputEntry>
+<outputEntry id="outputEntry1"><text>"High"</text></outputEntry>
+</rule>
+<!-- Rule 2: Medium Risk -->
+<rule id="rule2">
+<inputEntry id="inputEntry2"><text>&gt;= 50 and &lt; 80</text></inputEntry>
+<outputEntry id="outputEntry2"><text>"Medium"</text></outputEntry>
+</rule>
+<!-- Rule 3: Low Risk -->
+<rule id="rule3">
+<inputEntry id="inputEntry3"><text>&lt; 50</text></inputEntry>
+<outputEntry id="outputEntry3"><text>"Low"</text></outputEntry>
+</rule>
+</decisionTable>
+</decision>
+</definitions>
+ 
