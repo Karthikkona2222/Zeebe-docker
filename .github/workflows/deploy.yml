@@ -1,4 +1,4 @@
-name: CI-CD Deploy to EC2
+name: CI/CD Deploy to QA
 
 on:
   push:
@@ -10,25 +10,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to EC2
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to QA Server via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ secrets.QA_HOST }}
+          username: ${{ secrets.QA_USER }}
+          key: ${{ secrets.QA_SSH_KEY }}
           port: 22
           timeout: 60s
           command_timeout: 15m
           script: |
             set -e
-            cd /home/ubuntu
 
-            if [ ! -d "zeebe-docker" ]; then
-              git clone https://github.com/Karthikkona2222/zeebe-docker.git
+            echo "Connected to:"
+            hostname
+            whoami
+
+            cd /home/karthik
+
+            if [ ! -d "Zeebe-docker" ]; then
+              git clone https://github.com/Karthikkona2222/Zeebe-docker.git
             fi
 
-            cd zeebe-docker/docker
+            cd Zeebe-docker
             git pull origin main
+
+            cd docker
 
             docker compose down || true
             docker compose build
