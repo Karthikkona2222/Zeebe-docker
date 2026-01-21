@@ -7,39 +7,28 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to QA Server via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.QA_HOST }}
-          username: ${{ secrets.QA_USER }}
-          key: ${{ secrets.QA_SSH_KEY }}
-          port: 22
-          timeout: 60s
-          command_timeout: 15m
-          script: |
-            set -e
+      - name: Deploy on QA server
+        run: |
+          set -e
+          whoami
+          hostname
 
-            echo "Connected to:"
-            hostname
-            whoami
+          cd /home/karthik
 
-            cd /home/karthik
+          if [ ! -d "Zeebe-docker" ]; then
+            git clone https://github.com/Karthikkona2222/Zeebe-docker.git
+          fi
 
-            if [ ! -d "Zeebe-docker" ]; then
-              git clone https://github.com/Karthikkona2222/Zeebe-docker.git
-            fi
+          cd Zeebe-docker
+          git pull origin main
 
-            cd Zeebe-docker
-            git pull origin main
-
-            cd docker
-
-            docker compose down || true
-            docker compose build
-            docker compose up -d
+          cd docker
+          docker compose down || true
+          docker compose build
+          docker compose up -d
