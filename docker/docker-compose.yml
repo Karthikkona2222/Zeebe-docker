@@ -11,8 +11,11 @@ services:
       POSTGRES_PASSWORD: apppassword
     ports:
       - "5432:5432"
+    networks:
+      - aisnetwork
     volumes:
       - pgdata:/var/lib/postgresql/data
+    
 
   zeebe:
     image: camunda/zeebe:8.5.3
@@ -35,6 +38,8 @@ services:
     restart: always
     ports:
       - "8989:8989"
+    networks:
+      - aisnetwork
     depends_on:
       - postgres
       - zeebe
@@ -47,3 +52,7 @@ services:
 volumes:
   pgdata:
   zeebe-data:
+
+networks:
+  aisnetwork:
+    driver: bridge
