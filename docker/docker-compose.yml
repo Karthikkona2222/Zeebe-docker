@@ -18,19 +18,20 @@ services:
     
 
   zeebe:
-  image: camunda/zeebe:8.5.3
-  container_name: zeebe
-  restart: always
-  ports:
-    - "26500:26500"
-  environment:
-    ZEEBE_BROKER_NETWORK_HOST: 0.0.0.0
-    ZEEBE_BROKER_GATEWAY_ENABLE: "true"
-    ZEEBE_BROKER_GATEWAY_NETWORK_HOST: 0.0.0.0
-  volumes:
-    - zeebe-data:/usr/local/zeebe/data
-  networks:
-    - aisnetwork   
+    image: camunda/zeebe:8.5.3
+    container_name: zeebe
+    restart: always
+    ports:
+      - "26500:26500"
+    environment:
+      ZEEBE_BROKER_NETWORK_HOST: 0.0.0.0
+      ZEEBE_BROKER_GATEWAY_ENABLE: "true"
+      ZEEBE_BROKER_GATEWAY_NETWORK_HOST: 0.0.0.0
+    volumes:
+      - zeebe-data:/usr/local/zeebe/data
+    networks:
+      - aisnetwork
+ 
 
 
   ais-backend:
@@ -59,6 +60,3 @@ volumes:
 networks:
   aisnetwork:
     driver: bridge
-    
-
-#kk
