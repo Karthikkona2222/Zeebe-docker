@@ -6,9 +6,9 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_DB: appdb
-      POSTGRES_USER: appuser
-      POSTGRES_PASSWORD: apppassword
+      POSTGRES_DB: AIS_Local
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: demo
     ports:
       - "5433:5432"
     networks:
