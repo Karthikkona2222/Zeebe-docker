@@ -48,9 +48,9 @@ services:
       - postgres
       - zeebe
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/appdb
-      SPRING_DATASOURCE_USERNAME: appuser
-      SPRING_DATASOURCE_PASSWORD: apppassword
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/AIS_Local
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: demo
       ZEEBE_CLIENT_BROKER_GATEWAY_ADDRESS: zeebe:26500
 
 volumes:
