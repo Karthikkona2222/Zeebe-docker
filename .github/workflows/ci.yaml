@@ -19,5 +19,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Maven
-        run: mvn clean verify
+      - name: Build backend with Maven
+        run: |
+          cd backend
+          mvn clean package
