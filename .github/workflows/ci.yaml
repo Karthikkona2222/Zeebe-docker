@@ -1,4 +1,4 @@
-name: CI - Build & Test
+name: CI - Build & Testing
 
 on:
   pull_request:
@@ -23,3 +23,4 @@ jobs:
         run: |
           cd backend
           mvn clean package
+          
