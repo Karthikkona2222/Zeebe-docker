@@ -1,4 +1,4 @@
-name: CI/CD Deploy to QA
+name: Deploy to QA
 
 on:
   push:
@@ -14,21 +14,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy on QA server
-        run: |
-          set -e
-          whoami
-          hostname
+  run: |
+    set -e
+    whoami
+    hostname
 
-          cd /home/karthik
+    cd /home/karthik
 
-          if [ ! -d "Zeebe-docker" ]; then
-            git clone https://github.com/Karthikkona2222/Zeebe-docker.git
-          fi
+    if [ ! -d "HealthCare" ]; then
+      git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/AshwiniMallela/HealthCare.git
+    fi
 
-          cd Zeebe-docker
-          git pull origin main
+    cd HealthCare
+    git pull origin main
 
-          cd docker
-          docker compose down || true
-          docker compose build
-          docker compose up -d
+    cd docker
+    docker compose down || true
+    docker compose build
+    docker compose up -d
